@@ -1,5 +1,7 @@
 import 'package:bitbox_moviedb/net/api.dart';
+import 'package:bitbox_moviedb/screens/favorites.dart';
 import 'package:bitbox_moviedb/screens/home_page.dart';
+import 'package:bitbox_moviedb/screens/pelicula_detalle.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
@@ -23,12 +25,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider(
-        create: (_) => ApiService.create(),
+        create: (context) => ApiService.create(),
         dispose: (_, ApiService service) => service.client.dispose(),
         child: MaterialApp(
           initialRoute: '/',
           routes: {
             '/': (_) => HomePage(),
+            "detalle": (context) => PeliculaDetalle(),
+            "favorita": (context) => Favourites(),
           },
         )
     );

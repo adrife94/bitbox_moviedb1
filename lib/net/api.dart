@@ -1,6 +1,9 @@
 import 'package:chopper/chopper.dart';
 import 'package:bitbox_moviedb/models/popular.dart';
 import 'package:bitbox_moviedb/services/model_converter.dart';
+import '../models/popular.dart';
+import '../models/result.dart';
+import '../repository/resource.dart';
 import 'interceptor.dart';
 
 
@@ -12,8 +15,11 @@ part 'api.chopper.dart';
 
 abstract class ApiService extends ChopperService {
 
-  @Get(path: '/movie/popular')
-  Future<Response<Popular>> getPopularMovies();
+  @Get(path: 'movie/popular')
+  Future<Response<Popular>> getPopularMovies(
+      @Query('api_key') String _apiKey,
+      @Query('page') int _page,);
+
 
   static ApiService create() {
 

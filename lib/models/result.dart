@@ -55,4 +55,24 @@ class Result {
   factory Result.fromJson(Map<String, dynamic> json) => _$ResultFromJson(json);
 
   Map<String, dynamic> toJson() => _$ResultToJson(this);
+
+  getPosterImg(){
+
+    final noAvalible = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.svg.png';
+
+    if (posterPath == null) {
+      return noAvalible;
+    } else {
+      return 'https://image.tmdb.org/t/p/w500/$posterPath';
+    }
+  }
+
+  getBackgroundImg() {
+    if(posterPath != null) {
+      return 'https://image.tmdb.org/t/p/w500/$backdropPath';
+    } else {
+      return 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Imagen_no_disponible.svg/1200px-Imagen_no_disponible.svg.png';
+    }
+
+  }
 }

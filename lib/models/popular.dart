@@ -1,11 +1,13 @@
 
 import 'package:bitbox_moviedb/models/result.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:provider/provider.dart';
 
 part 'popular.g.dart';
 
 @JsonSerializable()
-class Popular{
+class Popular extends ChangeNotifier{
 
   int page;
 
@@ -24,8 +26,17 @@ class Popular{
     this.results
   });
 
+
+
   factory Popular.fromJson(Map<String, dynamic> json) => _$PopularFromJson(json);
 
   Map<String, dynamic> toJson() => _$PopularToJson(this);
+
+  void addPage(){
+    page = 0;
+    page++;
+    notifyListeners();
+  }
+
 
 }
