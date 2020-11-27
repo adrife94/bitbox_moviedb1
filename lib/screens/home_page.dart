@@ -54,11 +54,12 @@ class HomePage extends StatelessWidget {
      ),
       body: Container(
         child: Center(
-         child:  Consumer<Popular>(
+          child: _swiperCards(context),
+        /* child:  Consumer<Popular>(
              builder: (context, popular, child){
              return _swiperCards(context);
              }
-        ),
+        ),*/
       ),
       ));
   }

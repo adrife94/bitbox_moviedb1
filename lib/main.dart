@@ -1,10 +1,11 @@
 import 'package:bitbox_moviedb/net/api.dart';
 import 'package:bitbox_moviedb/screens/favorites.dart';
-import 'package:bitbox_moviedb/screens/home_page.dart';
 import 'package:bitbox_moviedb/screens/pelicula_detalle.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
+
+import 'screens/home_page.dart';
 
 
 void main() {
