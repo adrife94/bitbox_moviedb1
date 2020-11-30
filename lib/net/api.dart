@@ -1,6 +1,7 @@
 import 'package:chopper/chopper.dart';
 import 'package:bitbox_moviedb/models/popular.dart';
 import 'package:bitbox_moviedb/services/model_converter.dart';
+import 'package:flutter/cupertino.dart';
 import '../models/popular.dart';
 import '../models/result.dart';
 import '../repository/resource.dart';
@@ -11,7 +12,7 @@ import 'interceptor.dart';
 part 'api.chopper.dart';
 
 // Anotación ChopperApi para que el generador de chopper sepa crear el archivo movie_service.chopper
-@ChopperApi()
+@ChopperApi( baseUrl: '')
 
 abstract class ApiService extends ChopperService {
 
@@ -21,7 +22,7 @@ abstract class ApiService extends ChopperService {
       @Query('page') int _page,);
 
 
-  static ApiService create() {
+  static ApiService create( {@required String baseUrl, @required int page, @required String apiKey}) {
 
     final client = ChopperClient(
 
@@ -36,4 +37,7 @@ abstract class ApiService extends ChopperService {
 
     return _$ApiService(client);
   }
+
+
+
 }
