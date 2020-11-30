@@ -92,11 +92,7 @@ class _HomePageState extends State<HomePage> {
     _pageControler.addListener(() {
       if (_pageControler.position.pixels >=
           _pageControler.position.maxScrollExtent) {
-
           fetchMovieResult();
-
-        // setState(() {
-        // });
       }
     });
 
@@ -106,10 +102,7 @@ class _HomePageState extends State<HomePage> {
 
     return StreamBuilder(
       stream: popularesStream,
-      // future: Provider.of<ApiService>(context).getPopularMovies(_apiKey, _page),
       builder: (context, snapshot) {
-      //  if (snapshot.connectionState == ConnectionState.done) {
-
         if (snapshot.hasData) {
           Popular p = snapshot.data;
           return ListView.builder(
