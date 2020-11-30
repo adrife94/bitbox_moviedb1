@@ -1,3 +1,4 @@
+import 'package:bitbox_moviedb/models/popular.dart';
 import 'package:bitbox_moviedb/net/api.dart';
 import 'package:bitbox_moviedb/screens/favorites.dart';
 import 'package:bitbox_moviedb/screens/pelicula_detalle.dart';
@@ -25,9 +26,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return Provider(
-        create: (context) => ApiService.create(),
-        dispose: (_, ApiService service) => service.client.dispose(),
+    return ChangeNotifierProvider(
+        create: (context) => Popular(),
+      //  dispose: (_, ApiService service) => service.client.dispose(),
         child: MaterialApp(
           initialRoute: '/',
           routes: {

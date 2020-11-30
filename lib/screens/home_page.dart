@@ -3,9 +3,7 @@ import 'dart:async';
 import 'package:bitbox_moviedb/models/popular.dart';
 import 'package:bitbox_moviedb/models/result.dart';
 import 'package:bitbox_moviedb/net/api.dart';
-import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../models/popular.dart';
 import '../net/api.dart';
 
@@ -19,11 +17,11 @@ class _HomePageState extends State<HomePage> {
 
   ApiService a = ApiService.create(baseUrl: 'https://api.themoviedb.org/3/', page: 1, apiKey: '46514b47bc995b14fd13c566f27ac058');
 
-  final _popularesStreamController = StreamController<List<Result>>.broadcast();
+  final _popularesStreamController = StreamController<Popular>.broadcast();
   // Para poder insertar informacion
-  Function(List<Result>) get popularesSink => _popularesStreamController.sink.add;
+  Function(Popular) get popularesSink => _popularesStreamController.sink.add;
 // Para escuchar la informacion
-  Stream<List<Result>> get popularesStream => _popularesStreamController.stream;
+  Stream<Popular> get popularesStream => _popularesStreamController.stream;
 
   @override
   Widget build(BuildContext context) {
@@ -83,15 +81,17 @@ class _HomePageState extends State<HomePage> {
 
     final _screenSize = MediaQuery.of(context).size;
 
+    Future<Popular> fetchMovieResult() async {
+      popular = await  a.getPopularMovies(_apiKey, _page++).then((value) => popular = value.body);
+      popularesSink(popular);
+      print(popular.results.toString());
+      return popular;
+      //  Function(List<Result>) get popularesSink => _popularesStreamController.sink.add;
+    }
+
     _pageControler.addListener(() {
       if (_pageControler.position.pixels >=
           _pageControler.position.maxScrollExtent) {
-
-          Future<void> fetchMovieResult() async {
-            popular = await  a.getPopularMovies(_apiKey, _page++).then((value) => popular = value.body);
-            print(popular.results.toString());
-          //  Function(List<Result>) get popularesSink => _popularesStreamController.sink.add;
-          }
 
           fetchMovieResult();
 
@@ -101,25 +101,17 @@ class _HomePageState extends State<HomePage> {
     });
 
     a.getPopularMovies(_apiKey, _page);
+    fetchMovieResult();
 
 
-    return FutureBuilder<Response<Popular>>(
-      future: a.getPopularMovies(_apiKey, _page),
+    return StreamBuilder(
+      stream: popularesStream,
       // future: Provider.of<ApiService>(context).getPopularMovies(_apiKey, _page),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.hasError) {
-            return Center(
-              child: Text(
-                snapshot.error.toString(),
-                textAlign: TextAlign.center,
-                textScaleFactor: 1.3,
-              ),
-            );
-          }
+      //  if (snapshot.connectionState == ConnectionState.done) {
 
-          final popular = snapshot.data.body;
-
+        if (snapshot.hasData) {
+          Popular p = snapshot.data;
           return ListView.builder(
               controller: _pageControler,
               padding: EdgeInsets.only(top: 5.0),
@@ -163,10 +155,11 @@ class _HomePageState extends State<HomePage> {
                 );
               });
         } else {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
+       return Center(
+         child: CircularProgressIndicator(),
+       );
+     }
+
       },
     );
   } // _swiperTarjetas
