@@ -1,8 +1,11 @@
 import 'dart:async';
 
+import 'package:bitbox_moviedb/global.dart';
 import 'package:bitbox_moviedb/models/popular.dart';
 import 'package:bitbox_moviedb/models/result.dart';
 import 'package:bitbox_moviedb/net/api.dart';
+import 'package:bitbox_moviedb/repository/resource.dart';
+import 'package:bitbox_moviedb/repository/result_repository.dart';
 import 'package:flutter/material.dart';
 import '../models/popular.dart';
 import '../net/api.dart';
@@ -16,6 +19,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   ApiService a = ApiService.create(baseUrl: 'https://api.themoviedb.org/3/', page: 1, apiKey: '46514b47bc995b14fd13c566f27ac058');
+
+ 
 
   final _popularesStreamController = StreamController<Popular>.broadcast();
   // Para poder insertar informacion
@@ -73,6 +78,8 @@ class _HomePageState extends State<HomePage> {
     Result asa ;
     Popular popular;
 
+
+
   //  Popular p = new Popular();
     final _apiKey = '46514b47bc995b14fd13c566f27ac058';
     int _page = 1;
@@ -84,7 +91,9 @@ class _HomePageState extends State<HomePage> {
     Future<Popular> fetchMovieResult() async {
       popular = await  a.getPopularMovies(_apiKey, _page++).then((value) => popular = value.body);
       popularesSink(popular);
-      print(popular.results.toString());
+ //   ResultRepository.getCollectionResource("https://api.themoviedb.org/3/movie/550?api_key=46514b47bc995b14fd13c566f27ac058");
+   // print(ag.data.results.first.title);
+  //    print(popular.results.toString());
       return popular;
       //  Function(List<Result>) get popularesSink => _popularesStreamController.sink.add;
     }

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bitbox_moviedb/models/result.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -41,7 +42,7 @@ class SqlFavoriteDatabase {
 
   // Crear registros
 
-  nuevoPeliculaRaw(Pelicula pelicula) async {
+  nuevoPeliculaRaw(Result pelicula) async {
     final db = await database;
 
     try {
@@ -68,7 +69,7 @@ class SqlFavoriteDatabase {
 
   }
 
-  Future<List<Pelicula>> getPeliculas() async {
+/*  Future<List<Pelicula>> getPeliculas() async {
 
     final db = await database;
 
@@ -80,7 +81,7 @@ class SqlFavoriteDatabase {
 
     return list;
 
-  }
+  }*/
 
 // Eliminar registro
 
