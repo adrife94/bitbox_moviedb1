@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:bitbox_moviedb/models/popular.dart';
+import 'package:bitbox_moviedb/models/result.dart';
 import 'package:bitbox_moviedb/net/api.dart';
 import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +18,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   ApiService a = ApiService.create(baseUrl: 'https://api.themoviedb.org/3/', page: 1, apiKey: '46514b47bc995b14fd13c566f27ac058');
+
+  final _popularesStreamController = StreamController<List<Result>>.broadcast();
+  // Para poder insertar informacion
+  Function(List<Result>) get popularesSink => _popularesStreamController.sink.add;
+// Para escuchar la informacion
+  Stream<List<Result>> get popularesStream => _popularesStreamController.stream;
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +70,11 @@ class _HomePageState extends State<HomePage> {
     }
 
   Widget _swiperCards(BuildContext context) {
+
+    List<Result> _listMovie = new List();
+    Result asa ;
+    Popular popular;
+
   //  Popular p = new Popular();
     final _apiKey = '46514b47bc995b14fd13c566f27ac058';
     int _page = 1;
@@ -72,17 +86,26 @@ class _HomePageState extends State<HomePage> {
     _pageControler.addListener(() {
       if (_pageControler.position.pixels >=
           _pageControler.position.maxScrollExtent) {
-          print('Cargar $_page');
-          a.getPopularMovies(_apiKey, _page++);
-          // var ad =   a.getPopularMovies(_apiKey, 1).then((value) => print(value.body.results.first.title));
+
+          Future<void> fetchMovieResult() async {
+            popular = await  a.getPopularMovies(_apiKey, _page++).then((value) => popular = value.body);
+            print(popular.results.toString());
+          //  Function(List<Result>) get popularesSink => _popularesStreamController.sink.add;
+          }
+
+          fetchMovieResult();
+
+        // setState(() {
+        // });
       }
     });
 
-    a.getPopularMovies(_apiKey, 1);
+    a.getPopularMovies(_apiKey, _page);
 
 
     return FutureBuilder<Response<Popular>>(
-      future: Provider.of<ApiService>(context).getPopularMovies(_apiKey, _page),
+      future: a.getPopularMovies(_apiKey, _page),
+      // future: Provider.of<ApiService>(context).getPopularMovies(_apiKey, _page),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasError) {
@@ -149,4 +172,5 @@ class _HomePageState extends State<HomePage> {
   } // _swiperTarjetas
 
 }
+
 
