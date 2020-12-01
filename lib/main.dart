@@ -4,21 +4,12 @@ import 'package:bitbox_moviedb/screens/favorites.dart';
 import 'package:bitbox_moviedb/screens/pelicula_detalle.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:logging/logging.dart';
 
 import 'screens/home_page.dart';
 
 
 void main() {
-  _setupLogging();
   runApp(MyApp());
-}
-
-void _setupLogging() {
-  Logger.root.level = Level.ALL;
-  Logger.root.onRecord.listen((rec) {
-    print('${rec.level.name}: ${rec.time}: ${rec.message}');
-  });
 }
 
 
@@ -28,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) => Popular(),
-      //  dispose: (_, ApiService service) => service.client.dispose(),
+       // dispose: (_, ApiService service) => service.client.dispose(),
         child: MaterialApp(
           initialRoute: '/',
           routes: {

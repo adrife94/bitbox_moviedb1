@@ -116,28 +116,6 @@ class Resource<T> extends ChangeNotifier {
     _status = Status.none;
     _error = null;
     _httpStatusCode = null;
-
     notifyListeners();
   }
-
-  /// A method that returns a generic network error for the
-  /// httpStatusCode of this resource
-  // String networkError(BuildContext context) {
-  //   String err;
-  //   switch (_httpStatusCode) {
-  //     case StatusCodes.unauthorized:
-  //     case StatusCodes.forbidden:
-  //       err = S.of(context).errorNetworkUnauthorized;
-  //       break;
-  //     case StatusCodes.internalServerError:
-  //     case StatusCodes.serviceUnavailable:
-  //       err = S.of(context).errorNetworkServer;
-  //       break;
-  //     default:
-  //       err = S.of(context).errorNetworkGeneric;
-  //       break;
-  //   }
-  //
-  //   return err;
-  // }
 }

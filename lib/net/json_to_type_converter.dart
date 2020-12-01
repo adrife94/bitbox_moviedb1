@@ -18,7 +18,6 @@ class JsonToTypeConverter extends JsonConverter {
     );
   }
 
-  // ignore: public_member_api_docs
   T fromJsonData<T, InnerType>(String jsonData, Function jsonParser) {
     final dynamic jsonMap = json.decode(jsonData);
 

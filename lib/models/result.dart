@@ -34,7 +34,6 @@ class Result {
   @JsonKey(name: 'release_date')
   String releaseDate;
 
-  // 6
   Result({
     this.popularity,
     this.voteCount,

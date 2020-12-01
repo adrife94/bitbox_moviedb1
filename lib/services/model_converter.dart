@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 import 'package:chopper/chopper.dart';
 import 'package:bitbox_moviedb/models/popular.dart';

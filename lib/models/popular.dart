@@ -26,17 +26,9 @@ class Popular extends ChangeNotifier{
     this.results
   });
 
-
-
   factory Popular.fromJson(Map<String, dynamic> json) => _$PopularFromJson(json);
 
   Map<String, dynamic> toJson() => _$PopularToJson(this);
-
-  void addPage(){
-    page = 0;
-    page++;
-    notifyListeners();
-  }
 
 
 }
