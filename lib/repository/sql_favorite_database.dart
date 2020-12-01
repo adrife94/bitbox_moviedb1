@@ -75,7 +75,7 @@ class SqlFavoriteDatabase {
     final response = await db.query('Movie');
 
 
-    List<Result> list = response.isNotEmpty ? response.map( (peli) => Pelicula.fromJsonMap2(peli)).toList() : [];
+    List<Result> list = response.isNotEmpty ? response.map( (peli) => Result.fromJson(peli)).toList() : [];
 
 
     return list;

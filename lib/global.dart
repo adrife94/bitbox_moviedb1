@@ -35,7 +35,7 @@ class Global {
       Resource<Result> appLeveluserResource}) {
 
     api = ApiService.create(
-        baseUrl: url != null ? url : "https://api.themoviedb.org/3/movie/popular?api_key=46514b47bc995b14fd13c566f27ac058&language=es_ES",
+      //  baseUrl: url != null ? url : "https://api.themoviedb.org/3/",
         page : page != null ? page : 1,
         apiKey: '46514b47bc995b14fd13c566f27ac058'
         );

@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 part 'popular.g.dart';
 
 @JsonSerializable()
-class Popular extends ChangeNotifier{
+class Popular {
 
   int page;
 

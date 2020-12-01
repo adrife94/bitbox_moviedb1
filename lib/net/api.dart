@@ -16,7 +16,7 @@ abstract class ApiService extends ChopperService {
       @Query('api_key') String _apiKey,
       @Query('page') int _page,);
 
-  static ApiService create( {@required String baseUrl, @required int page, @required String apiKey}) {
+  static ApiService create( {/*@required String baseUrl,*/ @required int page, @required String apiKey}) {
 
     final client = ChopperClient(
       baseUrl: 'https://api.themoviedb.org/3/',
