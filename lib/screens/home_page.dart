@@ -21,61 +21,67 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  ApiService a = ApiService.create(/*baseUrl: 'https://api.themoviedb.org/3/',*/ page: 1, apiKey: '46514b47bc995b14fd13c566f27ac058');
+  ApiService a = ApiService.create(/*baseUrl: 'https://api.themoviedb.org/3/',*/
+      page: 1, apiKey: '46514b47bc995b14fd13c566f27ac058');
 
-  final _popularesStreamController = StreamController<Resource<Popular>>.broadcast();
+  final _popularesStreamController = StreamController<
+      Resource<Popular>>.broadcast();
+
   // Para poder insertar informacion
-  Function(Resource<Popular>) get popularesSink => _popularesStreamController.sink.add;
+  Function(Resource<Popular>) get popularesSink =>
+      _popularesStreamController.sink.add;
+
 // Para escuchar la informacion
-  Stream<Resource<Popular>> get popularesStream => _popularesStreamController.stream;
+  Stream<Resource<Popular>> get popularesStream =>
+      _popularesStreamController.stream;
 
   @override
   Widget build(BuildContext context) {
     Popular popular = new Popular();
     // ApiService apiService = new ApiService();
 
-      return Scaffold(
-          appBar: AppBar(
-            title: Text('Cine', style: TextStyle(color: Colors.amber, fontWeight: FontWeight.bold, fontSize: 25.0),),
-            backgroundColor: Colors.deepPurple,
-            actions: [
-              IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: (){
-
-                    print("hola");
-                    /* showSearch(
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Cine', style: TextStyle(color: Colors.amber,
+              fontWeight: FontWeight.bold,
+              fontSize: 25.0),),
+          backgroundColor: Colors.deepPurple,
+          actions: [
+            IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  print("hola");
+                  /* showSearch(
                    context: context,
                    delegate: null,
                    query: '' );*/
-                  }),
-              IconButton(
+                }),
+            IconButton(
 
-                icon: Icon(Icons.favorite),
-                onPressed: () {
-                  Navigator.pushNamed(
-                    context,
-                    'favorita',
-                  );
-                },
-              )
-            ],
-          ),
-          body: Container(
-            child: Center(
-              child: _swiperCards(context),
-              /* child:  Consumer<Popular>(
+              icon: Icon(Icons.favorite),
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  'favorita',
+                );
+              },
+            )
+          ],
+        ),
+        body: Container(
+          child: Center(
+            child: _swiperCards(context),
+            /* child:  Consumer<Popular>(
              builder: (context, popular, child){
              return _swiperCards(context);
              }
         ),*/
-            ),
-          ));
-    }
+          ),
+        ));
+  }
 
   Widget _swiperCards(BuildContext context) {
-
-  //  List<Result> _listMovie = new List();
+    //  List<Result> _listMovie = new List();
 
     final Resource<Popular> recursoPopularess = Resource();
     //if (recursoPopularess.data.)
@@ -87,10 +93,13 @@ class _HomePageState extends State<HomePage> {
 
     final _pageControler = ScrollController();
 
-    final _screenSize = MediaQuery.of(context).size;
+    final _screenSize = MediaQuery
+        .of(context)
+        .size;
 
     Future<Popular> fetchMovieResult() async {
-      popular = await  a.getPopularMovies(_apiKey, _page++).then((value) => popular = value.body);
+      popular = await a.getPopularMovies(_apiKey, _page++).then((value) =>
+      popular = value.body);
       ResultRepository.getPopulars(recursoPopularess);
       popularesSink(recursoPopularess);
       return popular;
@@ -109,76 +118,83 @@ class _HomePageState extends State<HomePage> {
     _pageControler.addListener(() {
       if (_pageControler.position.pixels >=
           _pageControler.position.maxScrollExtent) {
-          fetchMovieResult();
+        fetchMovieResult();
       }
     });
 
     a.getPopularMovies(_apiKey, _page);
     fetchMovieResult();
 
-    return Center(
-      child: CircularProgressIndicator(),
-    );
-
-   /* return StreamBuilder(
-      stream: popularesStream,
-      builder: (context, snapshot) {
-        if (popular.results == null) {
+    return StreamBuilder(
+        stream: popularesStream,
+        builder: (context, snapshot) {
+          if (popular.results == null) {
             print("hola");
-        }
-
-        if (snapshot.hasData || popular.results != null) {
-          print(popular.results.toString());
-          Popular p = snapshot.data;
-          return ListView.builder(
-              controller: _pageControler,
-              padding: EdgeInsets.only(top: 5.0),
-              itemCount: popular.results.length,
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    ListTile(
-                      leading: Hero(
-                        tag: popular.results[index].id,
-                        child: ClipRRect(
-                          child: FadeInImage(
-                            image:
-                            NetworkImage(popular.results[index].getPosterImg()),
-                            placeholder:
-                            AssetImage('assets/loading-48.gif'),
-                            width: 50.0,
-                            fit: BoxFit.contain,
+          }
+          if (snapshot.hasData || popular.results != null) {
+            print(popular.results.toString());
+            Popular p = snapshot.data;
+            return ListView.builder(
+                controller: _pageControler,
+                padding: EdgeInsets.only(top: 5.0),
+                itemCount: popular.results.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      ListTile(
+                        leading: Hero(
+                          tag: popular.results[index].id,
+                          child: ClipRRect(
+                            child: FadeInImage(
+                              image:
+                              NetworkImage(
+                                  popular.results[index].getPosterImg()),
+                              placeholder:
+                              AssetImage('assets/loading-48.gif'),
+                              width: 50.0,
+                              fit: BoxFit.contain,
+                            ),
                           ),
                         ),
+                        title: Text(popular.results[index].title.toString()),
+                        trailing: IconButton(
+                            icon: Icon(
+                              Icons.favorite,
+                              color: Colors.blue,
+                            )
+                        ),
+                        //    trailing: _comparatorStreamSQL( context, pelicula, listaFavoritos),
+                        onTap: () {
+                          //   pelicula.uniqueId = '';
+                          Navigator.pushNamed(context, 'detalle',
+                              arguments: popular.results[index]);
+                        },
                       ),
-                      title: Text(popular.results[index].title.toString()),
-                      trailing: IconButton(
-                          icon: Icon(
-                            Icons.favorite,
-                            color: Colors.blue,
-                          )
+                      SizedBox(
+                        height: 5,
                       ),
-                      //    trailing: _comparatorStreamSQL( context, pelicula, listaFavoritos),
-                      onTap: () {
-                        //   pelicula.uniqueId = '';
-                        Navigator.pushNamed(context, 'detalle',
-                            arguments: popular.results[index]);
-                      },
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Divider()
-                  ],
-                );
-              });
-        } else {
-          return Center(
-            child: CircularProgressIndicator(),
-          );*/
+                      Divider()
+                    ],
+                  );
+                });
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        });
+  }
+}
 
 
-    /*return StreamBuilder(
+
+
+
+
+
+
+
+        /*return StreamBuilder(
       stream: popularesStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
@@ -206,12 +222,12 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         title: Text(pelicula.title.toString()),
-                       *//* trailing: IconButton(
+                       */ /* trailing: IconButton(
                             icon: Icon(
                               Icons.favorite,
                               color: Colors.blue,
                             )
-                        ),*//*
+                        ),*/ /*
                             trailing: comparatorStreamSQL( context, pelicula, listaFavoritos),
                         onTap: () {
                           //   pelicula.uniqueId = '';
@@ -227,16 +243,14 @@ class _HomePageState extends State<HomePage> {
                   );
                 }),
           ));
-
         } else {
        return Center(
          child: CircularProgressIndicator(),
        );*/
-   /*  }
-
+        /*  }
       },
     );*/
-  } // _swiperTarjetas
+        //} // _swiperTarjetas
 
 /*  void _mostrarAlertParaBorrar(BuildContext context, FavoriteMovies peliculasFavoritas, Result pelicula) {
     showDialog<void>(
@@ -258,7 +272,6 @@ class _HomePageState extends State<HomePage> {
                   image: NetworkImage(pelicula.getPosterImg()))
             ],
           ),
-
           actions: <Widget>[
             FlatButton(
               child: Text('Si'),
@@ -273,13 +286,11 @@ class _HomePageState extends State<HomePage> {
                   ));
                 });
                 // Dismiss alert dialog
-
                 if (SqlFavoriteDatabase.db.deletePMovieId(pelicula.id) == true) {
                   Scaffold.of(context).showSnackBar(SnackBar(
                     content: Text("Se ha añadido a tu lista de favoritos correctamente"),
                   ));
                 }
-
               },
             ),
             FlatButton(
@@ -292,7 +303,6 @@ class _HomePageState extends State<HomePage> {
       },
     );
   }
-
   void _mostrarAlert(BuildContext context, FavoriteMovies peliculasFavoritas, Result pelicula) {
     showDialog<void>(
       context: context,
@@ -313,7 +323,6 @@ class _HomePageState extends State<HomePage> {
                   image: NetworkImage(pelicula.getPosterImg()))
             ],
           ),
-
           actions: <Widget>[
             FlatButton(
               child: Text('Si'),
@@ -328,13 +337,11 @@ class _HomePageState extends State<HomePage> {
                   ));
                 });
                 // Dismiss alert dialog
-
                 if (SqlFavoriteDatabase.db.newMovieRaw(pelicula) == true) {
                   Scaffold.of(context).showSnackBar(SnackBar(
                     content: Text("Se ha añadido a tu lista de favoritos correctamente"),
                   ));
                 }
-
               },
             ),
             FlatButton(
@@ -347,7 +354,3 @@ class _HomePageState extends State<HomePage> {
       },
     );
   }*/
-
-}
-
-
