@@ -1,14 +1,11 @@
-
-import 'package:bitbox_moviedb/models/result.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:provider/provider.dart';
+
+import 'package:bitbox_moviedb/models/movie.dart';
 
 part 'popular.g.dart';
 
 @JsonSerializable()
 class Popular {
-
   int page;
 
   @JsonKey(name: 'total_results')
@@ -17,18 +14,12 @@ class Popular {
   @JsonKey(name: 'total_pages')
   int totalPages;
 
-  List<Result> results;
+  List<Movie> results = [];
 
-  Popular({
-    this.page,
-    this.totalResults,
-    this.totalPages,
-    this.results
-  });
+  Popular({this.page, this.totalResults, this.totalPages, this.results});
 
-  factory Popular.fromJson(Map<String, dynamic> json) => _$PopularFromJson(json);
+  factory Popular.fromJson(Map<String, dynamic> json) =>
+      _$PopularFromJson(json);
 
   Map<String, dynamic> toJson() => _$PopularToJson(this);
-
-
 }

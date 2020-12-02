@@ -12,8 +12,8 @@ Popular _$PopularFromJson(Map<String, dynamic> json) {
     totalResults: json['total_results'] as int,
     totalPages: json['total_pages'] as int,
     results: (json['results'] as List)
-        ?.map((e) =>
-            e == null ? null : Result.fromJson(e as Map<String, dynamic>))
+        ?.map(
+            (e) => e == null ? null : Movie.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
 }

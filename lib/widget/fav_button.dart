@@ -1,11 +1,10 @@
-
-
 import 'package:bitbox_moviedb/design/app_colors.dart';
-import 'package:bitbox_moviedb/models/result.dart';
+import 'package:bitbox_moviedb/models/movie.dart';
 import 'package:bitbox_moviedb/repository/peliculas_favoritas.dart';
 import 'package:flutter/material.dart';
 
-Widget comparatorStreamSQL(context, Result pelicula, FavoriteMovies listaFavoritos) {
+Widget comparatorStreamSQL(
+    context, Movie pelicula, FavoriteMovies listaFavoritos) {
   if (listaFavoritos.listaPeliculas.isNotEmpty) {
     for (int i = 0; i <= listaFavoritos.listaPeliculas.length - 1; i++) {
       if (listaFavoritos.listaPeliculas[i].id == pelicula.id) {
@@ -15,7 +14,7 @@ Widget comparatorStreamSQL(context, Result pelicula, FavoriteMovies listaFavorit
             color: AppColors.custom_red,
           ),
           onPressed: () {
-          //  mostrarAlertParaBorrar(context, listaFavoritos, pelicula);
+            //  showRemoveAlert(context, favList, movie);
           },
         );
       }
@@ -28,8 +27,7 @@ Widget comparatorStreamSQL(context, Result pelicula, FavoriteMovies listaFavorit
       color: Colors.blue,
     ),
     onPressed: () {
-   //   _mostrarAlert(context, listaFavoritos, pelicula);
+      //   _showAlert(context, favList, movie);
     },
   );
 }
-

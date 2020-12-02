@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'result.dart';
+part of 'movie.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Result _$ResultFromJson(Map<String, dynamic> json) {
-  return Result(
+Movie _$MovieFromJson(Map<String, dynamic> json) {
+  return Movie(
     popularity: (json['popularity'] as num)?.toDouble(),
     voteCount: json['vote_count'] as int,
     video: json['video'] as bool,
@@ -25,7 +25,7 @@ Result _$ResultFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$ResultToJson(Result instance) => <String, dynamic>{
+Map<String, dynamic> _$MovieToJson(Movie instance) => <String, dynamic>{
       'popularity': instance.popularity,
       'vote_count': instance.voteCount,
       'video': instance.video,

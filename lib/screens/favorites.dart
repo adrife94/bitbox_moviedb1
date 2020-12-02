@@ -1,183 +1,139 @@
+import 'package:bitbox_moviedb/models/movie.dart';
+import 'package:bitbox_moviedb/repository/peliculas_favoritas.dart';
+import 'package:bitbox_moviedb/repository/sql_favorite_database.dart';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 
 class Favourites extends StatefulWidget {
-
   @override
   _FavouritesState createState() => _FavouritesState();
 }
 
 class _FavouritesState extends State<Favourites> {
-
   @override
   Widget build(BuildContext context) {
-
-            return Scaffold(
-                appBar: AppBar(
-                  backgroundColor: Colors.deepPurple,
-                  title: Text("Peliculas favoritas", style: TextStyle(color: Colors.amber, fontWeight: FontWeight.bold, fontSize: 25.0),),
-                  actions: [
-                    IconButton(
-                      icon: Icon(Icons.delete),
-                      onPressed: () {
-                      //  _mostrarAlertBorrar(context);
-                      //  Navigator.pushNamed(context, 'favorita',);
-                      },
-                    )
-                  ],
-                ),
-                body: Container(
-               //   child: _creadorFavoritos(),
-                ),
-            );
-        }
-
-  /*void _mostrarAlert(BuildContext context, Pelicula pelicula) {
-    showDialog<void>(
-      context: context,
-      barrierDismissible: true,
-      // false = user must tap button, true = tap outside dialog
-      builder: (BuildContext dialogContext) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(20.0)),
-          // title: Text('title'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('¿Estas seguro que deseas eliminar \"${pelicula.title}\" de la lista de favoritos?'),
-              FadeInImage(
-                  placeholder: AssetImage("assets/loading-48.gif"),
-                  image: NetworkImage(pelicula.getPosterImg()))
-            ],
-          ),
-
-          actions: <Widget>[
-            FlatButton(
-              child: Text('Si'),
-              onPressed: () {
-                setState(() {
-                  DBProvider.db.deletePeliculaId(pelicula.id);
-                  final peliculasFavoritas = Provider.of<PeliculasFavoritas>(context, listen: false);
-                  peliculasFavoritas.updateProvider();
-                  Navigator.of(dialogContext).pop(); // Dismiss alert dialog
-                }
-                );
-
-              },
-            ),
-            FlatButton(
-                child: Text('No'),
-                onPressed: () => Navigator.of(dialogContext).pop() // Dismiss alert dialog
-            )
-          ],
-        );
-      },
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.deepPurple,
+        title: Text(
+          "Peliculas favoritas",
+          style: TextStyle(
+              color: Colors.amber, fontWeight: FontWeight.bold, fontSize: 25.0),
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.delete),
+            onPressed: () {
+              _deleteAll(context);
+              //  Navigator.pushNamed(context, 'favorita',);
+            },
+          )
+        ],
+      ),
+      body: Container(
+        child: _favoriteCreate(),
+      ),
     );
   }
 
-  void _mostrarAlertBorrar(BuildContext context) {
+  void _removeFavMovie(BuildContext context, Movie movie) {
+    setState(() {
+      SqlFavoriteDatabase.db.deleteMovieId(movie.id);
+      final peliculasFavoritas =
+          Provider.of<FavoriteMovies>(context, listen: false);
+      peliculasFavoritas.updateProvider();
+    });
+  } //_removeFavMovie
+
+  void _deleteAll(BuildContext context) {
     showDialog<void>(
       context: context,
       barrierDismissible: true,
       // false = user must tap button, true = tap outside dialog
       builder: (BuildContext dialogContext) {
         return AlertDialog(
-          shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(20.0)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
           // title: Text('title'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('¿Estas seguro que deseas eliminar todas las peliculas de tu lista de favoritos?'),
-              Icon(Icons.delete, size: 100,)
+              Text(
+                  '¿Estas seguro que deseas eliminar todas las peliculas de tu lista de favoritos?'),
+              Icon(
+                Icons.delete,
+                size: 100,
+              )
             ],
           ),
-
           actions: <Widget>[
             FlatButton(
               child: Text('Si'),
               onPressed: () {
                 setState(() {
-                  DBProvider.db.deleteAll();
-                  final peliculasFavoritas = Provider.of<PeliculasFavoritas>(context, listen: false);
+                  SqlFavoriteDatabase.db.deleteAll();
+                  final peliculasFavoritas =
+                      Provider.of<FavoriteMovies>(context, listen: false);
                   peliculasFavoritas.updateProvider();
                   Navigator.of(dialogContext).pop();
-              *//*    if (peliculas != null) {
-
-
-                  } else {
-                    Scaffold.of(context).showSnackBar(SnackBar(
-                      content: Text("Actualmente no dispone de ninguna pelicula en favoritos"),
-                    ));
-                  }*//*
                 });
-
-
               },
             ),
             FlatButton(
                 child: Text('No'),
-                onPressed: () => Navigator.of(dialogContext).pop() // Dismiss alert dialog
-            )
+                onPressed: () =>
+                    Navigator.of(dialogContext).pop() // Dismiss alert dialog
+                )
           ],
         );
       },
     );
-  }
+  } // _deleteFavoriteList
 
-
-  Widget _creadorFavoritos() {
-
+  Widget _favoriteCreate() {
     return FutureBuilder(
-
-      future: DBProvider.db.getPeliculas(),
-      builder: (BuildContext context, AsyncSnapshot<List<Pelicula>> snapshot) {
-      if (snapshot.hasData) {
-      final peliculas = snapshot.data;
+      future: SqlFavoriteDatabase.db.getMovies(),
+      builder: (BuildContext context, AsyncSnapshot<List<Movie>> snapshot) {
+        if (snapshot.hasData) {
+          final movies = snapshot.data;
           return ListView(
-              children: peliculas.map( (pelicula) {
-
-                return ListTile(
+              children: movies.map((movie) {
+            return Column(
+              children: [
+                ListTile(
                   leading: FadeInImage(
-                    image: NetworkImage( pelicula.getPosterImg() ),
+                    image: NetworkImage(movie.getPosterImg()),
                     placeholder: AssetImage('assets/loading-48.gif'),
                     width: 50.0,
                     fit: BoxFit.contain,
                   ),
-                  title: Text( pelicula.title ),
+                  title: Text(movie.title),
                   trailing: IconButton(
                     icon: Icon(
                       Icons.favorite,
                       color: Colors.red,
-
                     ),
                     onPressed: () {
-                      _mostrarAlert(context, pelicula);
+                      _removeFavMovie(context, movie);
                     },
                   ),
-                  onTap: (){
+                  onTap: () {
                     //   pelicula.uniqueId = '';
-                    Navigator.pushNamed(context, 'detalle', arguments: pelicula);
+                    Navigator.pushNamed(context, 'detalle', arguments: movie);
                   },
-                );
-              }
-              ).toList()
-
-          );
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Divider()
+              ],
+            );
+          }).toList());
         } else {
           return Container(
-              height: 400.0,
-              child: Center(
-                  child: CircularProgressIndicator()
-              )
-          );
-
+              height: 400.0, child: Center(child: CircularProgressIndicator()));
         }
       },
     );
-  }*/
   }
-
-
-
-
-
+}

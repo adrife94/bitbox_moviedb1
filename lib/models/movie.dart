@@ -1,10 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'result.g.dart';
+part 'movie.g.dart';
 
 @JsonSerializable()
-class Result {
-
+class Movie {
   double popularity;
 
   @JsonKey(name: 'vote_count')
@@ -34,31 +33,41 @@ class Result {
   @JsonKey(name: 'release_date')
   String releaseDate;
 
-  Result({
-    this.popularity,
-    this.voteCount,
-    this.video,
-    this.posterPath,
-    this.id,
-    this.adult,
-    this.backdropPath,
-    this.originalLanguage,
-    this.originalTitle,
-    this.genreIds,
-    this.title,
-    this.voteAverage,
-    this.overview,
-    this.releaseDate
-  });
+  Movie(
+      {this.popularity,
+      this.voteCount,
+      this.video,
+      this.posterPath,
+      this.id,
+      this.adult,
+      this.backdropPath,
+      this.originalLanguage,
+      this.originalTitle,
+      this.genreIds,
+      this.title,
+      this.voteAverage,
+      this.overview,
+      this.releaseDate});
 
-  factory Result.fromJson(Map<String, dynamic> json) => _$ResultFromJson(json);
+  Movie.fromJsonMap2(Map<String, dynamic> json) {
+    // voteCount = json['voteCount'];
+    id = json['id'];
+    // video = json['video'];
+    // voteAverage = json['voteAverage'] / 1;
+    title = json['title'];
+    posterPath = json['posterPath'];
+    // backdropPath = json['backdroPath'];
+    // overview = json['overview'];
+    // releaseDate = json['releaseDate'];
+  }
 
-  Map<String, dynamic> toJson() => _$ResultToJson(this);
+  factory Movie.fromJson(Map<String, dynamic> json) => _$MovieFromJson(json);
 
-  getPosterImg(){
+  Map<String, dynamic> toJson() => _$MovieToJson(this);
 
-    final noAvalible = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.svg.png';
-
+  getPosterImg() {
+    final noAvalible =
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.svg.png';
     if (posterPath == null) {
       return noAvalible;
     } else {
@@ -67,11 +76,10 @@ class Result {
   }
 
   getBackgroundImg() {
-    if(posterPath != null) {
+    if (posterPath != null) {
       return 'https://image.tmdb.org/t/p/w500/$backdropPath';
     } else {
       return 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Imagen_no_disponible.svg/1200px-Imagen_no_disponible.svg.png';
     }
-
   }
 }

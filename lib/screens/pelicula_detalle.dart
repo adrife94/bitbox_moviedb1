@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-import '../models/result.dart';
+import '../models/movie.dart';
 
 class PeliculaDetalle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
 
-    final Result pelicula = ModalRoute.of(context).settings.arguments;
+    final Movie pelicula = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
       body: CustomScrollView(
@@ -45,7 +45,7 @@ class PeliculaDetalle extends StatelessWidget {
     );
   }
 
-  Widget _crearAppbar(Result pelicula) {
+  Widget _crearAppbar(Movie pelicula) {
     return SliverAppBar(
       elevation: 2.0,
       backgroundColor: Colors.indigoAccent,
@@ -70,7 +70,7 @@ class PeliculaDetalle extends StatelessWidget {
     );
   }
 
-  Widget _crearRatingBar (Result pelicula) {
+  Widget _crearRatingBar (Movie pelicula) {
     return RatingBar.builder(
       initialRating: pelicula.voteAverage/2,
       minRating: 0,

@@ -17,9 +17,14 @@ class _$ApiService extends ApiService {
   final definitionType = ApiService;
 
   @override
-  Future<Response<Popular>> getPopularMovies(String _apiKey, int _page) {
+  Future<Response<Popular>> getPopularMovies(
+      String _apiKey, String language, int _page) {
     final $url = 'movie/popular';
-    final $params = <String, dynamic>{'api_key': _apiKey, 'page': _page};
+    final $params = <String, dynamic>{
+      'api_key': _apiKey,
+      'language': language,
+      'page': _page
+    };
     final $request = Request('GET', $url, client.baseUrl, parameters: $params);
     return client.send<Popular, Popular>($request);
   }
