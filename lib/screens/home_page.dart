@@ -4,6 +4,7 @@ import 'package:bitbox_moviedb/repository/movies_repository.dart';
 import 'package:bitbox_moviedb/repository/peliculas_favoritas.dart';
 import 'package:bitbox_moviedb/repository/resource.dart';
 import 'package:bitbox_moviedb/repository/sql_favorite_database.dart';
+import 'package:bitbox_moviedb/search/search_delegate.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -56,7 +57,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            'Cine',
+            'Populares',
             style: TextStyle(
                 color: Colors.amber,
                 fontWeight: FontWeight.bold,
@@ -67,7 +68,8 @@ class _HomePageState extends State<HomePage> {
             IconButton(
                 icon: Icon(Icons.search),
                 onPressed: () {
-                  showSearch(context: context, delegate: null, query: '');
+                  showSearch(
+                      context: context, delegate: DataSearch(), query: '');
                 }),
             IconButton(
               icon: Icon(Icons.favorite),

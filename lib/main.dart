@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
         create: (context) => FavoriteMovies(),
         // dispose: (_, ApiService service) => service.client.dispose(),
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           initialRoute: '/',
           routes: {
             '/': (_) => HomePage(),

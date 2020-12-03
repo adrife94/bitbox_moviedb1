@@ -30,4 +30,11 @@ abstract class ApiService extends ChopperService {
     @Query('language') String language,
     @Query('page') int _page,
   );
+
+  @Get(path: 'search/movie')
+  Future<Response<Popular>> getFindMovies(
+    @Query('api_key') String _apiKey,
+    @Query('language') String language,
+    @Query('query') String query,
+  );
 }

@@ -28,4 +28,17 @@ class _$ApiService extends ApiService {
     final $request = Request('GET', $url, client.baseUrl, parameters: $params);
     return client.send<Popular, Popular>($request);
   }
+
+  @override
+  Future<Response<Popular>> getFindMovies(
+      String _apiKey, String language, String query) {
+    final $url = 'search/movie';
+    final $params = <String, dynamic>{
+      'api_key': _apiKey,
+      'language': language,
+      'query': query
+    };
+    final $request = Request('GET', $url, client.baseUrl, parameters: $params);
+    return client.send<Popular, Popular>($request);
+  }
 }
